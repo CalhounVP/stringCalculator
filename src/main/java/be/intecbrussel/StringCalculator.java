@@ -44,8 +44,6 @@ public class StringCalculator {
     }
 
     private String getDelimiter(String numbers) {
-        Pattern pattern = Pattern.compile("(\\[\\D])");
-        Matcher matcher = pattern.matcher(numbers);
         String temp = "";
         if (!numbers.startsWith("//")) {
             return "[,\n]";

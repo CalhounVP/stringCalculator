@@ -65,5 +65,21 @@ class StringCalculatorTest {
     void testMultipleCharacterDelimiters () {
         Assertions.assertEquals(6, sc.add("//[*][%]\n1*2%3"));
     }
+    /*
+    Allow multiple delimiters like this:
+    “//[delim1][delim2]\n”
+    for example
+    “//[*][%]\n1*2%3” == 6
+     */
+
+    //@Test
+    void testMultipleMultipleCharacterDelimiters () {
+
+    }
+    /*
+    make sure you can also handle multiple delimiters with length longer than one char
+    for example
+    “//[**][%%]\n1**2%%3” =
+     */
 
 }
