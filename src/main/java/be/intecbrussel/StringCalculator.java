@@ -1,6 +1,7 @@
 package be.intecbrussel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +23,7 @@ public class StringCalculator {
             for (String s : numbers.split(this.getDelimiter(numbers))) {
                 temp = s.replace(']',' ');
                 if (isNumberValue(temp.trim())) {
+                    System.out.println(temp);
                     if (Integer.parseInt(temp.trim()) < 0) {
                         negativeNumbers.add(Integer.parseInt(temp.trim()));
                     } else if (Integer.parseInt(temp.trim()) <= 1000) {
@@ -45,15 +47,28 @@ public class StringCalculator {
 
     private String getDelimiter(String numbers) {
         String temp = "";
+        //if custom delimiter is not demanded return standard
         if (!numbers.startsWith("//")) {
-            return "[,\n]";
-        } else if (numbers.charAt(2) != '[') {
-            return "[,\n" + numbers.charAt(2) + "]";
-        } else {
+            return "[,\\n]";
+        }
+        //when custom delimiter is demanded return it
+        else if (numbers.charAt(2) != '[') {
+            return "[" + numbers.charAt(2) + "]";
+        }
+        //if only one appearance of the [customDelimiter] is present return it
+        else if (numbers.indexOf('[') == numbers.lastIndexOf('[')) {
             temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
+            numbers = numbers.replace(temp, "");
+            return temp.substring(1, temp.length()-2);
+        }
+            //do {
+        //                temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
+        //                numbers = numbers.replace(temp, "");
+        //                temp = temp.substring(1, temp.length()-2);
+        //            } while (numbers.contains("["));
+            //temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
             return temp;
         }
-    }
 
     private boolean hasNegativeNumbers() {
         try {
