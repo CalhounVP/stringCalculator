@@ -61,6 +61,8 @@ public class StringCalculator {
             numbers = numbers.replace(temp, "");
             return temp.substring(1, temp.length()-2);
         }
+        //TODO 11 & 12
+        //test is working now cuz it just splits the character strings, and the test is with 1 digit numbers
             return temp;
         }
 
