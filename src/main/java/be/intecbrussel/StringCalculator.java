@@ -55,18 +55,12 @@ public class StringCalculator {
         else if (numbers.charAt(2) != '[') {
             return "[" + numbers.charAt(2) + "]";
         }
-        //if only one appearance of the [customDelimiter] is present return it
+        //if the [customDelimiter] is present return it
         else if (numbers.indexOf('[') == numbers.lastIndexOf('[')) {
             temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
             numbers = numbers.replace(temp, "");
             return temp.substring(1, temp.length()-2);
         }
-            //do {
-        //                temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
-        //                numbers = numbers.replace(temp, "");
-        //                temp = temp.substring(1, temp.length()-2);
-        //            } while (numbers.contains("["));
-            //temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
             return temp;
         }
 
