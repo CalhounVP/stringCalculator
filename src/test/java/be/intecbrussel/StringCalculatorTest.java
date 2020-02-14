@@ -7,42 +7,63 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StringCalculatorTest {
 
+    StringCalculator sc = new StringCalculator();
+
     @Test
-    public void testEmptyString () {
-        StringCalculator sc = new StringCalculator();
-        Assertions.assertEquals(0,sc.add(null));
+    void testEmptyString () {
+        Assertions.assertEquals(0, sc.add(""));
     }
 
     @Test
-    public void testAddAccept1Number () {
-        StringCalculator sc = new StringCalculator();
-        Assertions.assertEquals(1,sc.add("1"));
+    void testSingleNumber () {
+        Assertions.assertEquals(1, sc.add("1"));
     }
 
     @Test
-    public void testAddMultipleNumbers () {
-        StringCalculator sc = new StringCalculator();
-        Assertions.assertEquals(3,sc.add("1,2"));
+    void testMultipleNumbers () {
+        Assertions.assertEquals(3, sc.add("1,2"));
     }
 
     @Test
-    public void testNewLines () {
-        StringCalculator sc = new StringCalculator();
-        Assertions.assertEquals(3,sc.add("1 \n2"));
+    void testNewLineSeperator () {
+        Assertions.assertEquals(6, sc.add("1,2\n3"));
     }
 
     @Test
-    public void testDelimiters() {
-        StringCalculator sc = new StringCalculator();
-        Assertions.assertEquals(3,sc.add("//;\n1;2"));
+    void testCustomDelimiter () {
+        Assertions.assertEquals(3, sc.add("//;\n1;2"));
     }
 
     @Test
-    public void testAddNegativeNumbers () {
-        StringCalculator sc = new StringCalculator();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> sc.add("-15, 20") );
+    void testNegativeNumberError () {
+        Assertions.assertDoesNotThrow(() -> sc.add("-15, 20"));
     }
 
+    @Test
+    void testMultipleNegativeNumbers () {
+        Assertions.assertDoesNotThrow(() -> sc.add("-15,20,-5,-20"));
+    }
 
+    @Test
+    void testGetCalledCount () {
+        sc.add("50");
+        sc.add("30,12,1");
+        Assertions.assertNotNull(sc.callCount());
+    }
+
+    @Test
+    void testIgnoreThousandUp () {
+        Assertions.assertEquals(2, sc.add("2,1001"));
+    }
+
+    @Test
+    void testMultipleDelimiters() {
+        Assertions.assertEquals(6, sc.add("//[***]\n1***2***3"));
+    }
+
+    @Test
+    void testMultipleCharacterDelimiters () {
+        Assertions.assertEquals(6, sc.add("//[*][%]\n1*2%3"));
+    }
 
 }
