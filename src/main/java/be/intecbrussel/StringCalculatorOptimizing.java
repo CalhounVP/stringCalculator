@@ -100,11 +100,15 @@ public class StringCalculatorOptimizing {
         }
         //only option left is [ ] custom delimiters
         else {
-            String[] delimiters = temp[0].split("(?<=})");
+            ArrayList<String> delimiters = new ArrayList<>();
+            do {
+                String tempDel = temp[0].substring(temp[0].indexOf('['), temp[0].indexOf(']') + 1);
+                delimiters.add(tempDel);
+                temp[0] = temp[0].replace(tempDel, "");
+            } while (temp[0].contains("]"));
             for (String s : delimiters) {
                 temp[1] = temp[1].replaceAll(s, ",");
             }
-            System.out.println(temp[1]);
             return temp[1];
         }
 
