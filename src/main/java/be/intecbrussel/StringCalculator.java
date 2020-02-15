@@ -1,10 +1,7 @@
 package be.intecbrussel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringCalculator {
     //__________________________________Properties__________________________________
@@ -15,19 +12,18 @@ public class StringCalculator {
     public int add(String numbers) {
         callCount++;
         int sum = 0;
-        String temp;
         negativeNumbers.clear(); //clear for every new String
         if (numbers == null || numbers.equals("")) {
             return 0;
         } else {
-            for (String s : numbers.split(this.getDelimiter(numbers))) {
-                temp = s.replace(']',' ');
-                if (isNumberValue(temp.trim())) {
-                    System.out.println(temp);
-                    if (Integer.parseInt(temp.trim()) < 0) {
-                        negativeNumbers.add(Integer.parseInt(temp.trim()));
-                    } else if (Integer.parseInt(temp.trim()) <= 1000) {
-                        sum += Integer.parseInt(temp.trim());
+            numbers = getSplitReadyString(numbers);
+            for (String s : numbers.split(" ")) {
+                if (isNumberValue(s.trim())) {
+                    System.out.println(s);
+                    if (Integer.parseInt(s.trim()) < 0) {
+                        negativeNumbers.add(Integer.parseInt(s.trim().trim()));
+                    } else if (Integer.parseInt(s.trim()) <= 1000) {
+                        sum += Integer.parseInt(s.trim());
                     }
                 }
             }
@@ -45,39 +41,65 @@ public class StringCalculator {
         return true;
     }
 
-    private String getDelimiter(String numbers) {
-        String temp = "";
-        //if custom delimiter is not demanded return standard
+    private String replaceDelimiters(String numbers, ArrayList<String> delimiters) {
+        numbers = numbers.replace("//", "");
+        for (String s : delimiters) {
+            if (s.length() != 1) {
+                String[] tempArray = s.split("");
+                String temp = "";
+                for (String t : tempArray) {
+                    temp += String.format("\\%s", t);
+                }
+                s = temp;
+            } else { //can't seem to make it work for singular characters [.]
+
+            }
+            numbers = numbers.replaceAll(String.format("\\%s", s), " ");
+        }
+        System.out.println("test " + numbers);
+        return numbers;
+    }
+
+    private String getSplitReadyString(String numbers) {
+        ArrayList<String> delimiters = new ArrayList<>();
+        String tempNumbers = numbers;
+        String tempDelimiter;
+        //if custom delimiter is not demanded add standard delimiter regex
         if (!numbers.startsWith("//")) {
-            return "[,\\n]";
+            delimiters.add(",");
+            delimiters.add("n");
         }
-        //when custom delimiter is demanded return it
+        //when custom delimiter is demanded add the single character delimiter
         else if (numbers.charAt(2) != '[') {
-            return "[" + numbers.charAt(2) + "]";
+            delimiters.add(String.format("%c", numbers.charAt(2)));
+            tempNumbers = tempNumbers.replaceFirst(String.format("%c", numbers.charAt(2)), "");
         }
-        //if the [customDelimiter] is present return it
-        else if (numbers.indexOf('[') == numbers.lastIndexOf('[')) {
-            temp = numbers.substring(numbers.indexOf('['), numbers.indexOf(']')+1);
-            numbers = numbers.replace(temp, "");
-            return temp.substring(1, temp.length()-2);
-        }
-        //TODO 11 & 12
-        //test is working now cuz it just splits the character strings, and the test is with 1 digit numbers
-            return temp;
+        //if the [customDelimiter] is present add it as long as there is one
+        else {
+            do {
+                //get the first [delimiter] in the string
+                tempDelimiter = tempNumbers.substring(tempNumbers.indexOf('['), tempNumbers.indexOf(']') + 1);
+                //remove the [delimiter]
+                tempNumbers = tempNumbers.replace(tempDelimiter, "");
+                //add the delimiter without the [ ] to the array
+                delimiters.add( String.format("%s%s",
+                        tempDelimiter.length()==3?"\\":"",
+                        tempDelimiter.substring(1, tempDelimiter.length() - 2)));
+            } while (tempNumbers.contains("["));
         }
 
-    private boolean hasNegativeNumbers() {
+        return replaceDelimiters(tempNumbers, delimiters);
+    }
+
+    private void hasNegativeNumbers() {
         try {
-            if (negativeNumbers.isEmpty()) {
-                return true;
-            } else {
+            if (!negativeNumbers.isEmpty()) {
                 throw new IllegalArgumentException("Negatives not allowed");
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             System.out.println(negativeNumbers.toString());
         }
-        return false;
     }
 
     public Integer callCount() {

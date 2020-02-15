@@ -57,12 +57,12 @@ class StringCalculatorTest {
     }
 
     @Test
-    void testMultipleDelimiters() {
+    void testMultipleCharacterLongDelimiters() {
         Assertions.assertEquals(6, sc.add("//[***]\n1***2***3"));
     }
 
     @Test
-    void testMultipleCharacterDelimiters () {
+    void testMultipleSingleCharacterDelimiters () {
         Assertions.assertEquals(6, sc.add("//[*][%]\n1*2%3"));
     }
     /*
@@ -74,12 +74,7 @@ class StringCalculatorTest {
 
     @Test
     void testMultipleMultipleCharacterDelimiters () {
-        Assertions.assertEquals(6, sc.add("//[**][%%]\n1**2%%3"));
+        Assertions.assertEquals(74, sc.add("//[**][%%]\n1**20%%53"));
     }
-    /*
-    make sure you can also handle multiple delimiters with length longer than one char
-    for example
-    “//[**][%%]\n1**2%%3” =
-     */
 
 }
