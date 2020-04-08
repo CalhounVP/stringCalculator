@@ -17,6 +17,7 @@ public class StringCalculator {
             }
 
             for (String split : numbers.split(delimiter)) {
+                checkNumberValidity(split);
                 sum += Integer.parseInt(split.trim());
             }
         }
@@ -30,6 +31,16 @@ public class StringCalculator {
 
     public String settingCustomDelimiters (String delimiters) {
         return delimiters.replaceFirst("//", "");
+    }
+
+    public void checkNumberValidity (String split) {
+        try {
+            if (Integer.parseInt(split.trim()) < 0) {
+                throw new Throwable("negatives not allowed");
+            }
+        } catch (Throwable t) {
+            System.out.println(t.getMessage());
+        }
     }
 
 }
