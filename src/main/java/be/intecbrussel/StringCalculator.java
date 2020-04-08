@@ -13,12 +13,12 @@ public class StringCalculator {
                 sum += Integer.parseInt(split.trim());
             }
         }
-
+        
         return sum;
     }
 
     public boolean emptyOrNullString(String numbers) {
         return numbers == null || numbers.isEmpty();
     }
-    
+
 }
