@@ -5,8 +5,11 @@ import java.util.List;
 
 public class StringCalculator {
 
+    private List<Integer> negativeNumbers = new ArrayList<>();
+
     public int add(String numbers) {
         int sum = 0;
+        negativeNumbers.clear();
         String delimiter = "[,\\n]";
 
         if (!emptyOrNullString(numbers)) {
@@ -22,6 +25,14 @@ public class StringCalculator {
             }
         }
 
+        try {
+            if (negativeNumbers.size() > 0) {
+                throw new Throwable("negatives not allowed \n" + negativeNumbers.toString());
+            }
+        } catch (Throwable t) {
+            System.out.println(t.getMessage());
+        }
+
         return sum;
     }
 
@@ -34,12 +45,13 @@ public class StringCalculator {
     }
 
     public void checkNumberValidity (String split) {
+        int toCheck = Integer.parseInt(split.trim());
         try {
-            if (Integer.parseInt(split.trim()) < 0) {
-                throw new Throwable("negatives not allowed");
+            if ( toCheck < 0) {
+                throw new Throwable();
             }
         } catch (Throwable t) {
-            System.out.println(t.getMessage());
+            negativeNumbers.add(toCheck);
         }
     }
 
