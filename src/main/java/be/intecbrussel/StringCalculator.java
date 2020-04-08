@@ -9,7 +9,7 @@ public class StringCalculator {
         int sum = 0;
 
         if (!emptyOrNullString(numbers)) {
-            for (String split : numbers.split(",")) {
+            for (String split : numbers.split("[,\\n]")) {
                 sum += Integer.parseInt(split.trim());
             }
         }
@@ -20,5 +20,5 @@ public class StringCalculator {
     public boolean emptyOrNullString(String numbers) {
         return numbers == null || numbers.isEmpty();
     }
-
+    
 }
