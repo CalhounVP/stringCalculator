@@ -23,8 +23,7 @@ public class StringCalculator {
             }
 
             for (String split : numbers.split(delimiter)) {
-                checkNumberValidity(split);
-                sum += Integer.parseInt(split.trim());
+                sum += checkNumberValidity(split);
             }
         }
 
@@ -47,15 +46,20 @@ public class StringCalculator {
         return delimiters.replaceFirst("//", "");
     }
 
-    public void checkNumberValidity (String split) {
-        int toCheck = Integer.parseInt(split.trim());
+    public int checkNumberValidity (String split) {
+        int toCheck = 0;
         try {
+            toCheck = Integer.parseInt(split.trim());
             if ( toCheck < 0) {
-                throw new Throwable();
+                throw new NumberFormatException();
             }
-        } catch (Throwable t) {
+        } catch (NumberFormatException nfe) {
             negativeNumbers.add(toCheck);
         }
+        if (toCheck > 1000) {
+            toCheck = 0;
+        }
+        return toCheck;
     }
 
     public int callCount() {
