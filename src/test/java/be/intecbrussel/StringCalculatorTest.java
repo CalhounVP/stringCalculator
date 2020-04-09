@@ -81,7 +81,7 @@ class StringCalculatorTest {
     void testGetCalledCount () {
         sco.add("50");
         sco.add("30,12,1");
-//        Assertions.assertNotNull(sco.callCount());
+        Assertions.assertNotNull(sco.callCount());
     }
 
 //    9. Numbers bigger than 1000 should be ignored, for example:

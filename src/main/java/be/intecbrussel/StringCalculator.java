@@ -6,11 +6,14 @@ import java.util.List;
 public class StringCalculator {
 
     private List<Integer> negativeNumbers = new ArrayList<>();
+    private int callCount;
 
     public int add(String numbers) {
         int sum = 0;
         negativeNumbers.clear();
         String delimiter = "[,\\n]";
+
+        callCount++;
 
         if (!emptyOrNullString(numbers)) {
             if (numbers.startsWith("//")) {
@@ -55,4 +58,7 @@ public class StringCalculator {
         }
     }
 
+    public int callCount() {
+        return callCount;
+    }
 }
