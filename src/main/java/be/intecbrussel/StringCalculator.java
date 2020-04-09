@@ -43,7 +43,14 @@ public class StringCalculator {
     }
 
     public String settingCustomDelimiters (String delimiters) {
-        return delimiters.replaceFirst("//", "");
+        delimiters = delimiters.replaceFirst("//", "");
+
+        if (delimiters.contains("[") && !delimiters.contains("][")) {
+            delimiters = delimiters.replace("[", "\\Q")
+                    .replace("]", "\\E");
+        }
+        
+        return delimiters;
     }
 
     public int checkNumberValidity (String split) {
