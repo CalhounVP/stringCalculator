@@ -48,8 +48,16 @@ public class StringCalculator {
         if (delimiters.contains("[") && !delimiters.contains("][")) {
             delimiters = delimiters.replace("[", "\\Q")
                     .replace("]", "\\E");
+        } else if (delimiters.contains("][")) {
+            String temp = "[";
+
+            for (String s: delimiters.split("]\\[")) {
+                temp += "\\Q" + s.replace("[", "")
+                        .replace("]", "") + "\\E";
+            }
+            delimiters = temp + "]";
         }
-        
+
         return delimiters;
     }
 
@@ -61,7 +69,9 @@ public class StringCalculator {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException nfe) {
-            negativeNumbers.add(toCheck);
+            if (toCheck < 0) {
+                negativeNumbers.add(toCheck);
+            }
         }
         if (toCheck > 1000) {
             toCheck = 0;
